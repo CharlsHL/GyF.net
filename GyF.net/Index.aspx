@@ -33,31 +33,48 @@
                         </ul>
                         <form class="form-inline mr-auto" target="_self">
                             <div class="form-group"><label for="search-field"><i class="fa fa-search"></i></label><input class="form-control search-field" type="search" name="search" id="search-field"/></div>
-                        </form><span class="navbar-text"> <a href="#" class="login">Log In</a></span><a class="btn btn-light action-button" role="button" href="#">Sign Up</a></div>
+                        </form><span class="navbar-text"> <a href="#" class="login" id="Inicio1">Log In</a></span><a class="btn btn-light action-button" role="button" href="#">Sign Up</a></div>
         </div>
         </nav>
     </div>
     </div>
 
 
-       <form id="form2" runat="server">&nbsp;<div align="center">
-                <asp:TextBox ID="cajaBusqueda" runat="server" type="number" min="0" max="1000000" CausesValidation="true" Width="452px" BorderStyle="Groove" OnTextChanged="cajaBusqueda_TextChanged" >Ingrese su presupuesto ...</asp:TextBox>
-                <asp:Button ID="btbuscar" runat="server" Height="30px" Text="Buscar" Width="62px" OnClick="btbuscar_Click" />
+       <form id="form2" runat="server">&nbsp;<div align ="center">
+           <asp:Label ID="Slogan" runat="server" Text="Busque aqui su producto deseado siempre dentro de su presupuesto" BorderStyle="None" Font-Names="Century Gothic" Font-Size="XX-Large" ForeColor="White"></asp:Label>
+                <br />
+                 <br />
+                <asp:TextBox ID="cajaBusqueda" runat="server" type="number" min="0" max="1000000" CausesValidation="true" Width="452px" BorderStyle="Groove">Ingrese su presupuesto ...</asp:TextBox>
+                <asp:Button ID="btbuscar" runat="server" Height="30px" Text="Buscar" Width="62px" OnClick="btbuscar_Click" Font-Names="Century Gothic" />
+                <br />
                 <br />
                 <br />
                 <br />
                 <asp:Label ID="MsjError" runat="server" Font-Names="Century Gothic" ForeColor="#FFFFCC" Text="No se encontraron productos dentro del presupeusto ... " Visible="False"></asp:Label>
                 <br />
                 <br />
-                <asp:GridView ID="gridCatalogo" runat="server" AutoGenerateColumns="False" DataKeyNames="IdProducto" DataSourceID="SqlDataSource1" Width="80%" BackColor="#0066FF" Font-Italic="False" Font-Names="Century Gothic" ForeColor="#CCFFFF">
-                    <Columns>
-                        <asp:BoundField DataField="IdProducto" HeaderText="IdProducto" InsertVisible="False" ReadOnly="True" SortExpression="IdProducto" />
-                        <asp:BoundField DataField="PrecioProd" HeaderText="PrecioProd" SortExpression="PrecioProd" />
-                        <asp:BoundField DataField="FechaCarga" HeaderText="FechaCarga" SortExpression="FechaCarga" />
-                        <asp:BoundField DataField="Categoría" HeaderText="Categoría" SortExpression="Categoría" />
-                    </Columns>
+                <br />
+                <br />
+                <asp:GridView ID="Productos" runat="server" BackColor="#0066FF" Font-Names="Century Gothic" ForeColor="White" Height="163px"  Width="1247px" >
+                    <FooterStyle ForeColor="#CCFFFF" />
                 </asp:GridView>
-                <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:GyFConnectionString %>" SelectCommand="SELECT * FROM [Productos] ORDER BY [PrecioProd] DESC" OnSelecting="SqlDataSource1_Selecting"></asp:SqlDataSource>
+                <br />
+                <asp:Button ID="Button1" runat="server" OnClick="Button1_Click1" Text="Button" />
+                <br />
+                <br />
+                <div align ="center">
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+                <br />
+            </div>
+                <br />
+                <br />
+                <br />
                 <br />
                 <br />
                 <br />

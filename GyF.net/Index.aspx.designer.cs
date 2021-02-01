@@ -24,6 +24,15 @@ namespace GyF.net
         protected global::System.Web.UI.HtmlControls.HtmlForm form2;
 
         /// <summary>
+        /// Control Slogan.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Slogan;
+
+        /// <summary>
         /// Control cajaBusqueda.
         /// </summary>
         /// <remarks>
@@ -51,21 +60,21 @@ namespace GyF.net
         protected global::System.Web.UI.WebControls.Label MsjError;
 
         /// <summary>
-        /// Control gridCatalogo.
+        /// Control Productos.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gridCatalogo;
+        protected global::System.Web.UI.WebControls.GridView Productos;
 
         /// <summary>
-        /// Control SqlDataSource1.
+        /// Control Button1.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.SqlDataSource SqlDataSource1;
+        protected global::System.Web.UI.WebControls.Button Button1;
     }
 }
