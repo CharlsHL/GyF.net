@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -13,11 +14,12 @@ namespace GyF.net
 {
     public partial class WebForm1 : System.Web.UI.Page
     {
-        //int presupuesto;
+        DataTable dt2 = new DataTable();
         DataTable dt = new DataTable();
         protected void Page_Load(object sender, EventArgs e)
         {
             CargarGrid();
+           crearTabla();
         }
         protected void btbuscar_Click(object sender, EventArgs e)
         {
@@ -37,7 +39,7 @@ namespace GyF.net
                     {
                         using (SqlCommand cmd = new SqlCommand("Presupuesto", sql))
                         {
-                            dt.Clear();
+                            dt.Clear(); 
                             cmd.CommandType = CommandType.StoredProcedure;
                             cmd.Parameters.Add(new SqlParameter("@Presupuesto", cajaBusqueda.Text));
                             SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -70,51 +72,93 @@ namespace GyF.net
                     Productos.DataBind();
                 }
             }
+        }
+        protected void Button1_Click1(object sender, EventArgs e)
+        {
+            MsjError2.Visible = false;
+            if (nodbCaja.Text!= "")
+            {
+                int control = Convert.ToInt32(nodbCaja.Text);
+                if (control < 1 || control > 1000000)
+                {
+                    MsjError2.Visible = true;
+                }
+                else
+                {
+                    dt2.Columns.AddRange(new DataColumn[4] {new DataColumn("Id", typeof(int)),
+                            new DataColumn("Precio", typeof(int)),
+                            new DataColumn("Fecha",typeof(DateTime)),
+                            new DataColumn("Categoria",typeof(string))});
+                    dt2.Rows.Add(1, 10, "25/10/2019", "PRODDOS");
+                    dt2.Rows.Add(2, 60, "21/10/2019", "PRODUNO");
+                    dt2.Rows.Add(3, 05, "22/10/2019 ", "PRODDOS");
+                    dt2.Rows.Add(4, 05, "29/10/2019", "PRODUNO");
+                    dt2.Rows.Add(5, 15, "11/09/2019", "PRODDOS");
+                    DataView dv = new DataView(dt2);
+                    dv.Sort = "Precio Desc";
+
+                    dv.RowFilter = string.Format("Convert(Precio, 'System.String') <= '" + nodbCaja.Text + "%'");
+                    DataTable filtrada = new DataTable();
+                    filtrada = dv.ToTable(true);
+
+                    // Funcion evita que el filtro tome mas de una categoria del mismo producto
+                    DataTable NoDuplicado = removerDuplicados(filtrada, "Categoria");
+
+                    DataView nodup = new DataView(NoDuplicado);
+                    nodup.RowFilter = string.Format("Convert(Precio, 'System.String') + Precio <= '" + nodbCaja.Text + "%'");
+                    GridView1.DataSource = NoDuplicado;
+                    GridView1.DataBind();
+                }
+            }
 
         }
-        public void  BuscarNosql()
+        public void crearTabla()
+        {
+            if (!this.IsPostBack)
+            {
+                //DataTable dt2 = new DataTable();
+                dt2.Columns.AddRange(new DataColumn[4] {new DataColumn("Id", typeof(int)),
+                            new DataColumn("Precio", typeof(int)),
+                            new DataColumn("Fecha",typeof(DateTime)),
+                            new DataColumn("Categoria",typeof(string))});
+                dt2.Rows.Add(1, 10, "25/10/2019", "PRODDOS");
+                dt2.Rows.Add(2, 60, "21/10/2019", "PRODUNO");
+                dt2.Rows.Add(3, 05, "22/10/2019 ", "PRODDOS");
+                dt2.Rows.Add(4, 05, "29/10/2019", "PRODUNO");
+                dt2.Rows.Add(5, 15, "11/09/2019","PRODDOS");
+                GridView1.DataSource = dt2;
+                GridView1.DataBind();
+            }
+        }   
+        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        public DataTable removerDuplicados(DataTable table, string DistinctColumn)
         {
             try
             {
-                var lst = dt.Select(string.Format("PrecioProd = '{0}'", cajaBusqueda.Text));
+                ArrayList UniqueRecords = new ArrayList();
+                ArrayList DuplicateRecords = new ArrayList();
+                foreach (DataRow dRow in table.Rows)
+                {
+                    if (UniqueRecords.Contains(dRow[DistinctColumn]))
+                        DuplicateRecords.Add(dRow);
+                    else
+                        UniqueRecords.Add(dRow[DistinctColumn]);
+                }
 
-                //Declaras un nuevo dataTable para asignarlo a grid y no afectar el original
-                var table = new DataTable();
-                var column = new DataColumn();
+                foreach (DataRow dRow in DuplicateRecords)
+                {
+                    table.Rows.Remove(dRow);
+                }
 
-                //Agregas las columnas correspondientes al nuevo dataTable
-                column.DataType = System.Type.GetType("System.Int32");
-                column.ColumnName = "PrecioProd";
-                table.Columns.Add(column);
-
-                column = new DataColumn();
-                column.DataType = Type.GetType("System.String");
-                column.ColumnName = "IdProducto";
-                table.Columns.Add(column);
-            
-           
-            
-
-                    //LLenas el dataTable con el resultado de la busqueda
-                     foreach (DataRow row in lst)
-                    {
-                    table.ImportRow(row);
-                    }
-                //Asignas el nuevo dataTable al grid
-                Productos.DataSource = table;
+                return table;
             }
             catch (Exception ex)
             {
-                throw;
+                return null;
             }
-
-
-
-        }
-
-        protected void Button1_Click1(object sender, EventArgs e)
-        {
-            BuscarNosql();
         }
     }
 }

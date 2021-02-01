@@ -1,0 +1,34 @@
+--Create database GyF;
+--Create table Productos (IdProducto int NOT NULL IDENTITY(1,1) PRIMARY KEY, PrecioProd int,FechaCarga date, Categoría varchar (50) );
+
+--insert into Productos
+--values ('60','21/10/2019','PRODUNO');
+--insert into Productos-
+--values ('05','22/10/2019','PRODDOS');
+--insert into Productos
+--values ('05','29/10/2019','PRODUNO');
+--insert into Productos
+--values ('15','11/09/2019','PRODDOS');
+
+//----------------------------------------//
+
+CREATE PROCEDURE Presupuesto
+    @Presupuesto int     
+AS   
+      
+
+	SET NOCOUNT ON;  
+	Select Distinct (Categoría),PrecioProd = Max(PrecioProd)
+	From Productos WHERE  PrecioProd <= @Presupuesto group by Categoría;
+
+GO  
+
+
+// ----------------------------------//
+CREATE PROCEDURE Carga
+    
+AS   
+    SET NOCOUNT ON;  	
+    SELECT *  
+    FROM Productos  
+GO  
